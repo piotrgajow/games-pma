@@ -10,13 +10,11 @@ public class HeroRoleConverter implements AttributeConverter<HeroRole, Integer> 
 
     @Override
     public Integer convertToDatabaseColumn(HeroRole heroRole) {
-        System.out.println("LOL1");
         return heroRole.position;
     }
 
     @Override
     public HeroRole convertToEntityAttribute(Integer integer) {
-        System.out.println("LOL2");
         return HeroRole.fromPosition(integer);
     }
 

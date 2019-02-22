@@ -12,12 +12,12 @@ This application is intended to help Dota 2 players by assissting in selecting b
 
 ## Technologies
 
-The application is written using the following technologies:
+The application is written using the following technologies:
 - Backend: Spring
 - Frontend: React
 - Database: MySQL
 
-Domain Driven Design with Event Storming techniques were used to prepare architecture. Event and command buses are used for communication purposes as an exercise.
+Domain Driven Design with Event Storming techniques were used to prepare architecture. Event and command buses are used for communication purposes as an exercise.
 
 ## Development
 

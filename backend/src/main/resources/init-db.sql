@@ -4,3 +4,12 @@ CREATE TABLE hero (
 
     PRIMARY KEY (id)
 );
+
+CREATE TABLE hero_role (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    hero_id BIGINT NOT NULL,
+    role INT NOT NULL,
+
+    PRIMARY KEY (id)
+);
+

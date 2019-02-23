@@ -1,7 +1,7 @@
 package com.webappcraft.dota.api.dto;
 
+import com.webappcraft.dota.domain.HeroRole;
 import com.webappcraft.dota.storage.entity.HeroEntity;
-import com.webappcraft.dota.storage.entity.HeroRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

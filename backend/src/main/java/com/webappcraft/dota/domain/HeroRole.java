@@ -1,4 +1,4 @@
-package com.webappcraft.dota.storage.entity;
+package com.webappcraft.dota.domain;
 
 import java.util.HashMap;
 import java.util.Map;

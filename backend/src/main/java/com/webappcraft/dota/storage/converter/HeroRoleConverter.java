@@ -1,6 +1,6 @@
 package com.webappcraft.dota.storage.converter;
 
-import com.webappcraft.dota.storage.entity.HeroRole;
+import com.webappcraft.dota.domain.HeroRole;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

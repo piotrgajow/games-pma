@@ -1,5 +1,6 @@
 package com.webappcraft.dota.storage.entity;
 
+import com.webappcraft.dota.domain.HeroRole;
 import com.webappcraft.dota.storage.converter.HeroRoleConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

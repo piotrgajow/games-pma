@@ -11,8 +11,9 @@ public enum HeroRole {
     HARD_SUPPORT(5);
 
     private static final Map<Integer, HeroRole> LOOKUP = new HashMap<>();
+
     static {
-        for (HeroRole role:HeroRole.values()) {
+        for (HeroRole role : HeroRole.values()) {
             LOOKUP.put(role.position, role);
         }
     }

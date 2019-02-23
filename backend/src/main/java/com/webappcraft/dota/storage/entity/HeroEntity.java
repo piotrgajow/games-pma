@@ -1,7 +1,12 @@
 package com.webappcraft.dota.storage.entity;
 
 import com.webappcraft.dota.storage.converter.HeroRoleConverter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -16,8 +21,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import java.util.List;
 
-@Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 @Table(name = "hero")
 public class HeroEntity {
 

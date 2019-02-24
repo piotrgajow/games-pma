@@ -1,4 +1,4 @@
-package com.webappcraft.dota.domain;
+package com.webappcraft.dota.domain.game;
 
 public enum GameType {
     UNRANKED(false),

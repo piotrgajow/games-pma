@@ -1,6 +1,6 @@
 package com.webappcraft.dota.api.dto;
 
-import com.webappcraft.dota.domain.GameType;
+import com.webappcraft.dota.domain.game.GameType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

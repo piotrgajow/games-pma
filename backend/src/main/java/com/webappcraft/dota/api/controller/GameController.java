@@ -2,7 +2,12 @@ package com.webappcraft.dota.api.controller;
 
 import com.webappcraft.dota.api.dto.CreateGameDTO;
 import com.webappcraft.dota.api.dto.HeroSuggestionsDTO;
-import com.webappcraft.dota.domain.GameResult;
+import com.webappcraft.dota.domain.game.GameRepository;
+import com.webappcraft.dota.domain.game.GameResult;
+import com.webappcraft.dota.domain.game.GameService;
+import com.webappcraft.dota.domain.game.StartNewGame;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,9 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GameController {
 
+    private final GameService gameService;
+
+    @Autowired
+    public GameController(@Qualifier("hibernateGameRepository") GameRepository hibernateGameRepository) {
+        this.gameService = new GameService(hibernateGameRepository);
+    }
+
     @PostMapping("player/{playerId}/game")
     public Long createGame(@PathVariable("playerId") Long playerId, @RequestBody CreateGameDTO createGameDTO) {
-        return null;
+        StartNewGame command = new StartNewGame(playerId, createGameDTO.getType());
+        return gameService.handleStartNewGame(command);
     }
 
     @PutMapping("/game/{gameId}/position/{position}")

@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = {"com.webappcraft.dota.api"})
+@SpringBootApplication(scanBasePackages = {"com.webappcraft.dota.api", "com.webappcraft.dota.storage.repository"})
 @EnableJpaRepositories(basePackages = {"com.webappcraft.dota.storage.repository"})
 @EntityScan(basePackages = {"com.webappcraft.dota.storage.entity"})
 public class Application {

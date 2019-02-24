@@ -1,10 +1,9 @@
-package com.webappcraft.dota.storage.repository;
+package com.webappcraft.dota.storage.repository.entity;
 
-import com.webappcraft.dota.domain.HeroRepository;
 import com.webappcraft.dota.storage.entity.HeroEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository("heroRepository")
-public interface HibernateHeroRepository extends HeroRepository, JpaRepository<HeroEntity, Long> {
+public interface HeroEntityRepository extends JpaRepository<HeroEntity, Long> {
 }

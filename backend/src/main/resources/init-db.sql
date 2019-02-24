@@ -26,7 +26,7 @@ CREATE TABLE game (
     player_id BIGINT NOT NULL,
     played_on DATETIME NOT NULL DEFAULT NOW(),
     type VARCHAR(255),
-    result TINYINT,
+    result INT,
     hero_id BIGINT,
     hero_role INT,
     player_rating INT,

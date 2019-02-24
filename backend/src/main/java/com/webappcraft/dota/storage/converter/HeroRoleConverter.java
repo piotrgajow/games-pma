@@ -10,7 +10,7 @@ public class HeroRoleConverter implements AttributeConverter<HeroRole, Integer> 
 
     @Override
     public Integer convertToDatabaseColumn(HeroRole heroRole) {
-        return heroRole.position;
+        return heroRole != null ? heroRole.position : null;
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.webappcraft.dota.api.controller;
 
 import com.webappcraft.dota.api.dto.HeroDTO;
 import com.webappcraft.dota.storage.entity.HeroEntity;
-import com.webappcraft.dota.storage.repository.HibernateHeroRepository;
+import com.webappcraft.dota.storage.repository.entity.HeroEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HeroController {
 
-    private final HibernateHeroRepository heroRepository;
+    private final HeroEntityRepository heroRepository;
 
     @Autowired
-    public HeroController(HibernateHeroRepository heroRepository) {
+    public HeroController(HeroEntityRepository heroRepository) {
         this.heroRepository = heroRepository;
     }
 

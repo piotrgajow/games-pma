@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -25,6 +26,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "hero")
+@DynamicInsert
 public class HeroEntity {
 
     @Id

@@ -2,12 +2,10 @@ package com.webappcraft.dota.api.controller;
 
 import com.webappcraft.dota.api.dto.CreateGameDTO;
 import com.webappcraft.dota.api.dto.HeroSuggestionsDTO;
-import com.webappcraft.dota.domain.game.GameRepository;
+import com.webappcraft.dota.api.service.GameApplicationService;
+import com.webappcraft.dota.domain.HeroRole;
 import com.webappcraft.dota.domain.game.GameResult;
-import com.webappcraft.dota.domain.game.GameService;
-import com.webappcraft.dota.domain.game.StartNewGame;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,22 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GameController {
 
-    private final GameService gameService;
+    private final GameApplicationService gameApplicationService;
 
     @Autowired
-    public GameController(@Qualifier("hibernateGameRepository") GameRepository hibernateGameRepository) {
-        this.gameService = new GameService(hibernateGameRepository);
+    public GameController(GameApplicationService gameApplicationService) {
+        this.gameApplicationService = gameApplicationService;
     }
 
     @PostMapping("player/{playerId}/game")
     public Long createGame(@PathVariable("playerId") Long playerId, @RequestBody CreateGameDTO createGameDTO) {
-        StartNewGame command = new StartNewGame(playerId, createGameDTO.getType());
-        return gameService.handleStartNewGame(command);
+        return gameApplicationService.startNewGame(playerId, createGameDTO);
     }
 
     @PutMapping("/game/{gameId}/position/{position}")
     public void selectHeroRole(@PathVariable("gameId") Long gameId, @PathVariable("position") Integer position) {
-        return;
+        gameApplicationService.selectHeroRole(gameId, HeroRole.fromPosition(position));
     }
 
     @GetMapping("/game/{gameId}/hero-suggestions")
@@ -43,17 +40,17 @@ public class GameController {
 
     @PutMapping("game/{gameId}/hero/{heroId}")
     public void selectHero(@PathVariable("gameId") Long gameId, @PathVariable("heroId") Long heroId) {
-        return;
+        gameApplicationService.selectHero(gameId, heroId);
     }
 
     @PutMapping("/game/{gameId}/result/{result}")
     public void updateGameResult(@PathVariable("gameId") Long gameId, @PathVariable("result") GameResult result) {
-        return;
+        gameApplicationService.updateResult(gameId, result);
     }
 
     @PutMapping("/game/{gameId}/hero-rating/{heroRating}")
     public void updateHeroRating(@PathVariable("gameId") Long gameId, @PathVariable("heroRating") Integer rating) {
-        return;
+        gameApplicationService.updateRating(gameId, rating);
     }
 
 }

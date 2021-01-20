@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Hero {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  games Game[]
+
+  @@map(name: "heroes")
+}
+
+model Composition {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  games Game[]
+
+  @@map(name: "compositions")
+}
+
+model Game {
+  id            Int         @id @default(autoincrement())
+  heroId        Int         @map(name: "hero_id")
+  compositionId Int         @map(name: "composition_id")
+  mmr           Int
+  timestamp     DateTime
+  composition   Composition @relation(fields: [compositionId], references: [id])
+  hero          Hero        @relation(fields: [heroId], references: [id])
+
+  @@map(name: "games")
+  @@index([compositionId], name: "composition_id")
+  @@index([heroId], name: "hero_id")
+}
+
+model HeroStatistic {
+  id           Int    @unique
+  name         String
+  mmr          Float
+  mmrStd      Float  @map("mmr_std")
+  gamesPlayed Int    @map("games_played")
+
+  @@map(name: "hero_statistics")
+}

@@ -13,6 +13,10 @@ import { GameService } from './game.service';
             rootPath: join(__dirname, '..', 'ui'),
             exclude: ['/api*'],
         }),
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '..', 'node_modules', 'vue', 'dist'),
+            serveRoot: '/lib',
+        }),
     ],
     controllers: [AppController],
     providers: [PrismaService, HeroService, CompositionService, GameService],

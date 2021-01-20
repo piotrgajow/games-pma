@@ -1,3 +1,4 @@
+import Vue from "./lib/vue.esm.browser.js";
 import {get} from "./communication.js";
 
 const template = `

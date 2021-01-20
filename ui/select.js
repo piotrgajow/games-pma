@@ -1,3 +1,5 @@
+import Vue from "./lib/vue.esm.browser.js";
+
 const template = `
 <div>
     <label :for="dataId">{{label}}:</label>

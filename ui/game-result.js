@@ -1,5 +1,6 @@
-import "./select.js";
+import Vue from "./lib/vue.esm.browser.js";
 import {get, post} from "./communication.js";
+import "./select.js";
 
 const template = `
 <div>
@@ -31,10 +32,10 @@ async function onSave() {
     console.log("Game registered:", result)
     this.heroId = undefined;
     this.compositionId = undefined;
-    this.mmr = 0;
+    this.mmr = "";
 }
 
-const data = () => ({heroes: [], heroId: undefined, compositions: [], compositionId: undefined, mmr: 0});
+const data = () => ({heroes: [], heroId: undefined, compositions: [], compositionId: undefined, mmr: ""});
 const methods = {onSave};
 
 Vue.component('pma-game-result', {template, created, data, methods});

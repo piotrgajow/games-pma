@@ -1,3 +1,4 @@
+import Vue from "./lib/vue.esm.browser.js";
 import "./hero-ranking.js";
 import "./game-result.js";
 

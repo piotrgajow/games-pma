@@ -1,4 +1,4 @@
-import Vue from "./lib/vue.esm.browser.js";
+import Vue from "../lib/vue.esm.browser.js";
 
 const template = `
 <div>

@@ -1,6 +1,7 @@
-import Vue from "./lib/vue.esm.browser.js";
-import {get, post} from "./communication.js";
+import Vue from "../lib/vue.esm.browser.js";
+import {get, post} from "../services/communication.js";
 import "./select.js";
+import {EVENT_BUS, EVENT} from "../services/message-bus.js";
 
 const template = `
 <div>
@@ -12,7 +13,7 @@ const template = `
 </div>
 `
 
-async function created() {
+async function mounted() {
     const [heroes, compositions] = await Promise.all([get("hero"), get("composition")]);
     this.heroes = heroes.map((it) => ({id: `${it.id}`, label: it.name}));
     this.compositions = compositions.map((it) => ({id: `${it.id}`, label: it.name}));
@@ -33,9 +34,11 @@ async function onSave() {
     this.heroId = undefined;
     this.compositionId = undefined;
     this.mmr = "";
+
+    EVENT_BUS.send(EVENT.GAME.REGISTER);
 }
 
 const data = () => ({heroes: [], heroId: undefined, compositions: [], compositionId: undefined, mmr: ""});
 const methods = {onSave};
 
-Vue.component('pma-game-result', {template, created, data, methods});
+Vue.component('pma-game-result', {template, mounted, data, methods});

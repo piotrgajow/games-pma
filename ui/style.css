@@ -1,3 +1,7 @@
+body {
+    margin: 0;
+}
+
 .green {
     color: green
 }
@@ -7,5 +11,35 @@
 }
 
 .highlight {
+    margin-left: -10px;
+    font-size: 1.3em;
     font-weight: bold;
+}
+
+.app-header {
+    height: 30px;
+    width: calc(100vw - 18px); /* scroll */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.app-wrapper {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    grid-gap: 10px;
+    margin: 10px;
+}
+
+.ranking {
+    grid-column: 1 / 4;
+    grid-row: 1 / 13;
+}
+
+.result-form {
+    grid-column: 6 / 9;
+    grid-row:  4 / 9;
 }

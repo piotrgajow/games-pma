@@ -14,4 +14,11 @@ export interface HeroRanking {
     score: number;
 }
 
-export type GameCreate = Omit<Game, "id">
+export type GameCreate = Omit<Game, "id" | "timestamp">
+
+export interface MmrStatus {
+    currentMmr: number;
+    peakMmr: number;
+    mmrDeltaToday: number;
+    gamesPlayedToday: number;
+}

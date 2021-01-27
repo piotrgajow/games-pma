@@ -28,7 +28,7 @@ model Game {
   heroId        Int         @map(name: "hero_id")
   compositionId Int         @map(name: "composition_id")
   mmr           Int
-  timestamp     DateTime
+  timestamp     DateTime    @default(now())
   composition   Composition @relation(fields: [compositionId], references: [id])
   hero          Hero        @relation(fields: [heroId], references: [id])
 
@@ -45,4 +45,20 @@ model HeroStatistic {
   gamesPlayed Int    @map("games_played")
 
   @@map(name: "hero_statistics")
+}
+
+model Statistic {
+  id Int @unique
+  name String @unique
+  value String
+
+  @@map(name: "statistics")
+}
+
+model DailyStatistics {
+  mmrDelta    Int @map(name: "mmr_delta")
+  gamesPlayed Int @map(name: "games_played")
+
+  @@map(name: "daily_statistics")
+  @@id([mmrDelta, gamesPlayed])
 }

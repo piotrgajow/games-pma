@@ -6,6 +6,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CompositionService } from './composition.service';
 import { GameService } from './game.service';
+import { StatisticsService } from './statistics.service';
 
 @Module({
     imports: [
@@ -19,7 +20,7 @@ import { GameService } from './game.service';
         }),
     ],
     controllers: [AppController],
-    providers: [PrismaService, HeroService, CompositionService, GameService],
+    providers: [PrismaService, HeroService, CompositionService, GameService, StatisticsService],
 })
 export class AppModule {
 }

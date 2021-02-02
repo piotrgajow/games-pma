@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { HeroService } from './hero.service';
 import { GameCreate, HeroRanking, MmrStatus } from './types';
 import { Composition, Game, Hero } from '@prisma/client';
 import { CompositionService } from './composition.service';
 import { GameService } from './game.service';
 import { StatisticsService } from './statistics.service';
+import { LocalAuthGuard } from './auth/local-auth.guard';
+import { UsersService } from './users.service';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Controller("/api")
 export class AppController {
@@ -13,14 +16,34 @@ export class AppController {
     private readonly compositionService: CompositionService;
     private readonly gameService: GameService;
     private readonly statisticsService: StatisticsService;
+    private readonly usersService: UsersService;
 
-    constructor(heroRankingService: HeroService, compositionService: CompositionService, gameService: GameService, statisticsService: StatisticsService) {
+    constructor(
+        heroRankingService: HeroService,
+        compositionService: CompositionService,
+        gameService: GameService,
+        statisticsService: StatisticsService,
+        usersService: UsersService,
+    ) {
         this.heroService = heroRankingService;
         this.compositionService = compositionService;
         this.gameService = gameService;
         this.statisticsService = statisticsService;
+        this.usersService = usersService;
     }
 
+    @Post('/auth/register')
+    public async register(@Body() user) {
+        return this.usersService.register(user.login, user.password);
+    }
+
+    @UseGuards(LocalAuthGuard)
+    @Post('/auth/login')
+    public async login(@Request() req) {
+        return this.usersService.login(req.user);
+    }
+
+    @UseGuards(JwtAuthGuard)
     @Get("/hero/ranking")
     public async getHeroRanking(): Promise<HeroRanking[]> {
         return this.heroService.getHeroRanking();
@@ -36,6 +59,7 @@ export class AppController {
         return this.compositionService.getCompositionList();
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post("/game")
     public async postGame(@Body() gameCreate: GameCreate): Promise<Game> {
         const game = await this.gameService.saveGame(gameCreate);
@@ -43,6 +67,7 @@ export class AppController {
         return game;
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get("/statistics")
     public async getStatistics(): Promise<MmrStatus> {
         return this.statisticsService.getStatistics();

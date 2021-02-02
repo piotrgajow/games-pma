@@ -38,9 +38,9 @@ model Game {
 }
 
 model HeroStatistic {
-  id           Int    @unique
-  name         String
-  mmr          Float
+  id          Int    @unique
+  name        String
+  mmr         Float
   mmrStd      Float  @map("mmr_std")
   gamesPlayed Int    @map("games_played")
 
@@ -61,4 +61,12 @@ model DailyStatistics {
 
   @@map(name: "daily_statistics")
   @@id([mmrDelta, gamesPlayed])
+}
+
+model User {
+  id           Int    @id @default(autoincrement())
+  login        String @unique
+  passwordHash String @map(name: "password_hash")
+
+  @@map(name: "users")
 }

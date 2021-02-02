@@ -22,3 +22,9 @@ export interface MmrStatus {
     mmrDeltaToday: number;
     gamesPlayedToday: number;
 }
+
+export interface User {
+    id: number;
+    login: string;
+    passwordHash: string;
+}

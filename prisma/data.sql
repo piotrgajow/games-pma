@@ -1,45 +1,3 @@
-CREATE TABLE heroes
-(
-    id   INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    UNIQUE KEY (name)
-);
-
-CREATE TABLE compositions
-(
-    id   INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    UNIQUE KEY (name)
-);
-
-CREATE TABLE games
-(
-    id             INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    hero_id        INT NOT NULL,
-    composition_id INT NOT NULL,
-    mmr            INT NOT NULL,
-    timestamp      TIMESTAMP NOT NULL DEFAULT NOW(),
-    FOREIGN KEY (hero_id) REFERENCES heroes (id),
-    FOREIGN KEY (composition_id) REFERENCES compositions (id)
-);
-
-CREATE OR REPLACE VIEW hero_statistics AS
-SELECT h.id,
-       h.name,
-       COALESCE(AVG(g.mmr), 0) as mmr,
-       COALESCE(STD(g.mmr), 0) as mmr_std,
-       COUNT(g.id)             as games_played
-FROM heroes h
-         LEFT JOIN games g ON g.hero_id = h.id
-GROUP BY h.id;
-
-CREATE OR REPLACE VIEW composition_statistics AS
-SELECT c.name, AVG(g.mmr) as score, COUNT(g.id) as games_played
-FROM games g
-         JOIN compositions c ON c.id = g.composition_id
-GROUP BY c.id
-ORDER BY score DESC;
-
 INSERT INTO heroes (name)
 VALUES ("A. F. Kay");
 INSERT INTO heroes (name)
@@ -144,6 +102,10 @@ INSERT INTO heroes (name)
 VALUES ("Y'Shaarj");
 INSERT INTO heroes (name)
 VALUES ("Zephrys, the Great");
+INSERT INTO heroes (name)
+VALUES ("Tickatus");
+INSERT INTO heroes (name)
+VALUES ("Greybough");
 
 INSERT INTO compositions (name)
 VALUES ("Nothing");
@@ -163,3 +125,11 @@ INSERT INTO compositions (name)
 VALUES ("Mechs");
 INSERT INTO compositions (name)
 VALUES ("Pirates");
+
+INSERT INTO statistics
+VALUES (1, 'current-mmr', 0);
+INSERT INTO statistics
+VALUES (2, 'peak-mmr', 0);
+INSERT INTO statistics
+VALUES (3, 'hidden-mmr', 0);
+

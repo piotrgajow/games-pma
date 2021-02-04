@@ -1,10 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { Game, DailyStatistics, Statistic } from '@prisma/client';
 import { MmrStatus } from './types';
-
-const CURRENT_MMR_QUERY = { where: { name: "current-mmr" } };
-const PEAK_MMR_QUERY = { where: { name: "peak-mmr" } };
 
 @Injectable()
 export class StatisticsService {
@@ -15,30 +11,26 @@ export class StatisticsService {
         this.prismaService = prisma;
     }
 
-    public async getStatistics(): Promise<MmrStatus> {
-        const [dailyStats, currentMmr, peakMmr] = await Promise.all([
-            this.prismaService.dailyStatistics.findFirst(),
-            this.getCurrentMmr(),
-            this.getPeakMmr(),
+    public async getStatistics(userId: number): Promise<MmrStatus> {
+        const [[dailyStats], user] = await Promise.all([
+            this.prismaService.$queryRaw<{ mmrDelta: number, gamesPlayed: number}[]>`
+SELECT COALESCE(SUM(mmr), 0) as mmrDelta,
+       COUNT(mmr)            as gamesPlayed
+FROM games
+WHERE DATE(timestamp) = DATE(NOW()) AND user_id = ${userId}
+`,
+            this.prismaService.user.findUnique({ where: { id: userId } }),
         ]);
         return {
-            currentMmr,
-            peakMmr,
+            currentMmr: user.currentMmr,
+            peakMmr: user.peakMmr,
             mmrDeltaToday: dailyStats.mmrDelta,
             gamesPlayedToday: dailyStats.gamesPlayed,
         }
     }
 
-    public async getCurrentMmr(): Promise<number> {
-        return Number((await this.prismaService.statistic.findUnique(CURRENT_MMR_QUERY)).value);
-    }
-
-    public async getPeakMmr(): Promise<number> {
-        return Number((await this.prismaService.statistic.findUnique(PEAK_MMR_QUERY)).value);
-    }
-
-    public async updateMmr(mmrDelta: number): Promise<void> {
-        await this.prismaService.$executeRaw`CALL update_mmr(${mmrDelta})`;
+    public async updateMmr(userId: number, mmrDelta: number): Promise<void> {
+        await this.prismaService.$executeRaw`CALL update_mmr(${userId}, ${mmrDelta})`;
     }
 
 }

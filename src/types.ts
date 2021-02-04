@@ -7,6 +7,14 @@ export interface HeroScore {
     subScore: number;
 }
 
+export interface HeroStatistic {
+    id: number;
+    name: string;
+    mmr: number;
+    mmrStd: number;
+    gamesPlayed: number;
+}
+
 export interface HeroRanking {
     id: number;
     name: string;

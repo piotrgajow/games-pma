@@ -25,48 +25,28 @@ model Composition {
 
 model Game {
   id            Int         @id @default(autoincrement())
+  userId        Int         @map(name: "user_id")
   heroId        Int         @map(name: "hero_id")
   compositionId Int         @map(name: "composition_id")
   mmr           Int
-  timestamp     DateTime    @default(now())
+  timestamp     DateTime?
+  user          User        @relation(fields: [userId], references: [id])
   composition   Composition @relation(fields: [compositionId], references: [id])
   hero          Hero        @relation(fields: [heroId], references: [id])
 
   @@map(name: "games")
   @@index([compositionId], name: "composition_id")
   @@index([heroId], name: "hero_id")
-}
-
-model HeroStatistic {
-  id          Int    @unique
-  name        String
-  mmr         Float
-  mmrStd      Float  @map("mmr_std")
-  gamesPlayed Int    @map("games_played")
-
-  @@map(name: "hero_statistics")
-}
-
-model Statistic {
-  id Int @unique
-  name String @unique
-  value String
-
-  @@map(name: "statistics")
-}
-
-model DailyStatistics {
-  mmrDelta    Int @map(name: "mmr_delta")
-  gamesPlayed Int @map(name: "games_played")
-
-  @@map(name: "daily_statistics")
-  @@id([mmrDelta, gamesPlayed])
+  @@index([userId], name: "user_id")
 }
 
 model User {
   id           Int    @id @default(autoincrement())
   login        String @unique
   passwordHash String @map(name: "password_hash")
+  currentMmr   Int    @map(name: "current_mmr") @default(0)
+  peakMmr      Int    @map(name: "peak_mmr") @default(0)
+  hiddenMmr    Int    @map(name: "hidden_mmr") @default(0)
 
   @@map(name: "users")
 }

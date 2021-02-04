@@ -12,12 +12,14 @@ export class GameService {
         this.prismaService = prisma;
     }
 
-    public async saveGame(game: GameCreate): Promise<Game> {
+    public async saveGame(game: GameCreate, userId: number): Promise<Game> {
         const insert: GameCreateArgs = {
             data: {
+                user: { connect: { id: userId } },
                 composition: { connect: { id: game.compositionId } },
                 hero: { connect: { id: game.heroId } },
                 mmr: game.mmr,
+                timestamp: null,
             },
         };
         return this.prismaService.game.create(insert);

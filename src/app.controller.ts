@@ -51,8 +51,8 @@ export class AppController {
 
     @UseGuards(JwtAuthGuard)
     @Get("/hero/ranking")
-    public async getHeroRanking(): Promise<HeroRanking[]> {
-        return this.heroService.getHeroRanking();
+    public async getHeroRanking(@Request() req): Promise<HeroRanking[]> {
+        return this.heroService.getHeroRanking(req.user.id);
     }
 
     @Get("/hero")
@@ -67,21 +67,20 @@ export class AppController {
 
     @UseGuards(JwtAuthGuard)
     @Post("/game")
-    public async postGame(@Body() gameCreate: GameCreate): Promise<Game> {
-        const game = await this.gameService.saveGame(gameCreate);
-        await this.statisticsService.updateMmr(game.mmr);
+    public async postGame(@Body() gameCreate: GameCreate, @Request() req): Promise<Game> {
+        const game = await this.gameService.saveGame(gameCreate, req.user.id);
+        await this.statisticsService.updateMmr(req.user.id, game.mmr);
         return game;
     }
 
     @UseGuards(JwtAuthGuard)
     @Get("/statistics")
-    public async getStatistics(): Promise<MmrStatus> {
-        return this.statisticsService.getStatistics();
+    public async getStatistics(@Request() req): Promise<MmrStatus> {
+        return this.statisticsService.getStatistics(req.user.id);
     }
 
     @Get("/test")
     public async test(): Promise<any> {
-        await this.gameService.saveGame({ heroId: 1, compositionId: 1, mmr: 0 });
         return { message: "OK" };
     }
 

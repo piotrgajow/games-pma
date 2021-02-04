@@ -4,12 +4,17 @@ import {login} from "../services/communication.js";
 const template = `
 <div>
     <label for="login">Login:</label>
-    <input v-model="login"/>
+    <input ref="login" v-model="login"/>
     <label for="password">Password:</label>
     <input type="password" v-model="password"/>
     <button @click="onLogin">Login</button>
 </div>
 `
+
+function mounted() {
+    console.log(this.$refs);
+    this.$refs.login.focus();
+}
 
 async function onLogin() {
     const user = {login: this.login, password: this.password};
@@ -24,4 +29,4 @@ async function onLogin() {
 const data = () => ({login: "", password: ""});
 const methods = { onLogin };
 
-Vue.component('pma-login-form', {template, data, methods});
+Vue.component('pma-login-form', {template, mounted, data, methods});

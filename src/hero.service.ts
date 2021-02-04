@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { Hero, HeroStatistic } from '@prisma/client';
-import { HeroRanking, HeroScore } from './types';
+import { Hero } from '@prisma/client';
+import { HeroRanking, HeroScore, HeroStatistic } from './types';
 
 @Injectable()
 export class HeroService {
@@ -16,8 +16,17 @@ export class HeroService {
         return this.prismaService.hero.findMany()
     }
 
-    public async getHeroRanking(): Promise<HeroRanking[]> {
-        const statistics = await this.prismaService.heroStatistic.findMany()
+    public async getHeroRanking(userId: number): Promise<HeroRanking[]> {
+        const statistics = await this.prismaService.$queryRaw<HeroStatistic[]>`
+SELECT h.id,
+       h.name,
+       COALESCE(AVG(g.mmr), 0) as mmr,
+       COALESCE(STD(g.mmr), 0) as mmr_std,
+       COUNT(g.id)             as games_played
+FROM heroes h
+    LEFT JOIN games g ON g.hero_id = h.id AND g.user_id = ${userId}
+GROUP BY h.id
+`;
         return statistics
             .map(scoreHero)
             .sort(sort)

@@ -125,11 +125,3 @@ INSERT INTO compositions (name)
 VALUES ("Mechs");
 INSERT INTO compositions (name)
 VALUES ("Pirates");
-
-INSERT INTO statistics
-VALUES (1, 'current-mmr', 0);
-INSERT INTO statistics
-VALUES (2, 'peak-mmr', 0);
-INSERT INTO statistics
-VALUES (3, 'hidden-mmr', 0);
-

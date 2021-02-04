@@ -1,5 +1,5 @@
 import Vue from "../lib/vue.esm.browser.js";
-import {get} from "../services/communication.js";
+import {getHeroRanking} from "../services/communication.js";
 import {EVENT_BUS, EVENT} from "../services/message-bus.js";
 
 const template = `
@@ -20,7 +20,7 @@ function mounted() {
 }
 
 async function loadRanking() {
-    this.heroes = await get("hero/ranking");
+    this.heroes = await getHeroRanking();
 }
 
 function onGameRegistered() {

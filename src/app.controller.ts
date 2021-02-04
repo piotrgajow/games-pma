@@ -44,6 +44,12 @@ export class AppController {
     }
 
     @UseGuards(JwtAuthGuard)
+    @Get('/auth/extend')
+    public async extendToken(@Request() req) {
+        return this.usersService.login(req.user);
+    }
+
+    @UseGuards(JwtAuthGuard)
     @Get("/hero/ranking")
     public async getHeroRanking(): Promise<HeroRanking[]> {
         return this.heroService.getHeroRanking();

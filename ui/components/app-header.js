@@ -1,6 +1,6 @@
 import Vue from "../lib/vue.esm.browser.js";
 import {EVENT, EVENT_BUS} from "../services/message-bus.js";
-import {get} from "../services/communication.js";
+import {getStatistics} from "../services/communication.js";
 
 const template = `
 <div>
@@ -18,7 +18,7 @@ function mounted() {
 }
 
 async function loadStatistics() {
-    const statistics = await get("statistics");
+    const statistics = await getStatistics();
     this.current = statistics.currentMmr;
     this.peak = statistics.peakMmr;
     this.delta = statistics.mmrDeltaToday;

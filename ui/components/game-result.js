@@ -1,5 +1,5 @@
 import Vue from "../lib/vue.esm.browser.js";
-import {get, post} from "../services/communication.js";
+import {getCompositions, getHeroes, registerGame} from "../services/communication.js";
 import "./select.js";
 import {EVENT_BUS, EVENT} from "../services/message-bus.js";
 
@@ -14,7 +14,7 @@ const template = `
 `
 
 async function mounted() {
-    const [heroes, compositions] = await Promise.all([get("hero"), get("composition")]);
+    const [heroes, compositions] = await Promise.all([getHeroes(), getCompositions()]);
     this.heroes = heroes.map((it) => ({id: `${it.id}`, label: it.name}));
     this.compositions = compositions.map((it) => ({id: `${it.id}`, label: it.name}));
 }
@@ -29,7 +29,7 @@ async function onSave() {
         heroId: Number.parseInt(this.heroId),
         compositionId: Number.parseInt(this.compositionId),
     };
-    const result = await post("game", game);
+    const result = await registerGame(game);
     console.log("Game registered:", result)
     this.heroId = undefined;
     this.compositionId = undefined;

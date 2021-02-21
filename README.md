@@ -8,6 +8,8 @@ This application is intended to help players by gathering statistical data from 
 
 ## Games
 
+- Hearthstone Battlegrounds
+
 ## Technologies
 
 The application is written using the following technologies:
@@ -19,10 +21,19 @@ The application is written using the following technologies:
 
 ### Prerequisites
 
+- MySQL server
+
 ### Installation
+
+- `npm ci`
+- Initialize database with scripts from `./prisma`
+- Copy `./.env.template` into `./.env` and fill in configuration
 
 ### Testing
 
+- TBD
+
 ### Running
 
-### Deployment
+- `npm run build`
+- `./start.sh`

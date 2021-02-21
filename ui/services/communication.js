@@ -3,7 +3,7 @@ const HEADERS = () => ({
     "Content-Type": "application/json",
     "Authorization": `Bearer ${token}`,
 });
-const URL = "http://localhost:3000/api";
+const URL = "/api";
 const AUTH_ENDPOINT = "auth/login";
 const AUTH_EXTEND_ENDPOINT = "auth/extend";
 

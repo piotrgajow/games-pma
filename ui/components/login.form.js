@@ -12,7 +12,6 @@ const template = `
 `
 
 function mounted() {
-    console.log(this.$refs);
     this.$refs.login.focus();
 }
 

@@ -8,4 +8,4 @@ do
   fi
 done < .env
 
-node ./dist/main &
+node ./dist/main

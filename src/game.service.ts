@@ -19,7 +19,6 @@ export class GameService {
                 composition: { connect: { id: game.compositionId } },
                 hero: { connect: { id: game.heroId } },
                 mmr: game.mmr,
-                timestamp: null,
             },
         };
         return this.prismaService.game.create(insert);

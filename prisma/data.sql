@@ -106,6 +106,8 @@ INSERT INTO heroes (name)
 VALUES ("Tickatus");
 INSERT INTO heroes (name)
 VALUES ("Greybough");
+INSERT INTO heroes (name)
+VALUES ("Overlord Saurfang");
 
 INSERT INTO compositions (name)
 VALUES ("Nothing");

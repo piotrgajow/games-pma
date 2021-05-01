@@ -108,6 +108,8 @@ INSERT INTO heroes (name)
 VALUES ("Greybough");
 INSERT INTO heroes (name)
 VALUES ("Overlord Saurfang");
+INSERT INTO heroes (name)
+VALUES ("Queen Wagtoggle");
 
 INSERT INTO compositions (name)
 VALUES ("Nothing");

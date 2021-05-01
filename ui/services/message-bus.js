@@ -25,5 +25,8 @@ export const EVENT = {
     KEY: {
         PRESS: e("key:press"),
     },
+    AUTH: {
+        TOKEN_EXTENDED: e("auth:token-extended"),
+    },
 }
 

@@ -46,3 +46,7 @@ body {
     grid-column: 6 / 9;
     grid-row:  4 / 9;
 }
+
+.clickable {
+    cursor: pointer;
+}

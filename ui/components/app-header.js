@@ -15,7 +15,7 @@ const template = `
 
 function mounted() {
     loadStatistics.call(this);
-    this.expirationDate = getExpiration();
+    updateSession.call(this, { detail: getExpiration() });
     EVENT_BUS.addEventListener(EVENT.GAME.REGISTER, loadStatistics.bind(this));
     EVENT_BUS.addEventListener(EVENT.AUTH.TOKEN_EXTENDED, updateSession.bind(this));
 }
@@ -29,7 +29,9 @@ async function loadStatistics() {
 }
 
 function updateSession({ detail: expiration }) {
-    this.expirationDate = expiration;
+    const hh = expiration.getHours().toString().padStart(2, "0");
+    const mm = expiration.getMinutes().toString().padStart(2, "0");
+    this.expirationLabel =  `${hh}:${mm}`;
 }
 
 async function onSessionExtend() {
@@ -44,16 +46,12 @@ function todayColor() {
 }
 
 function today() {
-    const sign = this.delta > 0 ? '+' : '';
+    const sign = this.delta > 0 ? '+' : '-';
     return `${sign}${this.delta} over ${this.played} games`;
 }
 
-function expirationLabel() {
-    return `${this.expirationDate.getHours()}:${this.expirationDate.getMinutes()}`;
-}
-
-const data = () => ({current: 0, peak: 0, delta: 0, played: 0, expirationDate: new Date() });
+const data = () => ({current: 0, peak: 0, delta: 0, played: 0, expirationLabel: "" });
 const methods = {todayColor, onSessionExtend};
-const computed = {today, expirationLabel};
+const computed = {today};
 
 Vue.component('pma-app-header', {template, data, computed, methods, mounted});

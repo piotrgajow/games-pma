@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { Hero } from '@prisma/client';
 import { HeroRanking, HeroScore, HeroStatistic } from './types';
+import { SMALL_SAMPLE_SIZE, Z_TABLE } from './consts';
 
 @Injectable()
 export class HeroService {
@@ -18,15 +19,27 @@ export class HeroService {
 
     public async getHeroRanking(userId: number): Promise<HeroRanking[]> {
         const statistics = await this.prismaService.$queryRaw<HeroStatistic[]>`
-SELECT h.id,
-       h.name,
-       COALESCE(AVG(g.mmr), 0) as mmr,
-       COALESCE(STD(g.mmr), 0) as mmr_std,
-       COUNT(g.id)             as games_played
-FROM heroes h
-    LEFT JOIN games g ON g.hero_id = h.id AND g.user_id = ${userId}
-GROUP BY h.id
-`;
+SELECT
+r.id,
+r.name,
+r.gamesPlayed,
+r.avg,
+r.stdev,
+COALESCE(a.rating_avg, 0)   AS avgOld,
+COALESCE(a.rating_stdev, 0) AS stdevOld,
+COALESCE(a.games_played, 0) AS gamesPlayedOld
+FROM
+    (SELECT
+         h.id,
+         h.name,
+         COALESCE(AVG(g.rating), 0) AS avg,
+         COALESCE(STD(g.rating), 0) AS stdev,
+         COUNT(g.id)                AS gamesPlayed
+         FROM
+             heroes h
+                 LEFT JOIN games g ON g.hero_id = h.id AND g.user_id = ${userId}
+         GROUP BY h.id) r
+        LEFT JOIN hero_stat_archive a ON a.hero_id = r.id AND a.user_id = ${userId}`;
         return statistics
             .map(scoreHero)
             .sort(sort)
@@ -36,17 +49,29 @@ GROUP BY h.id
 }
 
 function scoreHero(heroStatistic: HeroStatistic): HeroScore {
-    const { mmr, mmrStd, gamesPlayed } = heroStatistic;
-    const hasSmallSampleSize = gamesPlayed < 3;
-    const mainScore = mmr > 0 ? Math.ceil(mmr / 10) : Math.floor(mmr / 10);
-    const subScore = hasSmallSampleSize ? 100 : mmrStd;
-    const score = hasSmallSampleSize ? mainScore / 2 : mainScore;
+    const probability = getPositiveScoreProbability(heroStatistic);
+
     return {
         id: heroStatistic.id,
         name: heroStatistic.name,
-        score,
-        subScore,
+        score: Math.round(1000 * probability) / 10,
     };
+}
+
+function getPositiveScoreProbability(heroStatistic: HeroStatistic): number {
+    const hasSmallSampleSize = heroStatistic.gamesPlayed < SMALL_SAMPLE_SIZE;
+    if (hasSmallSampleSize && heroStatistic.gamesPlayedOld < SMALL_SAMPLE_SIZE) {
+        return 0.5;
+    }
+
+    const avg = hasSmallSampleSize ? heroStatistic.avgOld : heroStatistic.avg;
+    const stdev = hasSmallSampleSize ? heroStatistic.stdevOld : heroStatistic.stdev;
+    if (stdev === 0) {
+        return avg > 0 ? 1 : 0;
+    } else {
+        const zScore = Math.round(100 * avg / stdev) / 100;
+        return Z_TABLE[zScore]
+    }
 }
 
 function rankHero(heroScore: HeroScore, index: number): HeroRanking {
@@ -59,9 +84,5 @@ function rankHero(heroScore: HeroScore, index: number): HeroRanking {
 }
 
 function sort(a: HeroScore, b: HeroScore): number {
-    if (a.score === b.score) {
-        return a.subScore - b.subScore;
-    } else {
-        return b.score - a.score;
-    }
+    return b.score - a.score;
 }

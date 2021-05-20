@@ -29,6 +29,9 @@ model Game {
   heroId        Int         @map(name: "hero_id")
   compositionId Int         @map(name: "composition_id")
   mmr           Int
+  placement     Int
+  isExAequo     Boolean     @map(name: "is_ex_aequo")
+  rating        Int
   timestamp     DateTime?
   user          User        @relation(fields: [userId], references: [id])
   composition   Composition @relation(fields: [compositionId], references: [id])
@@ -49,4 +52,18 @@ model User {
   hiddenMmr    Int    @map(name: "hidden_mmr") @default(0)
 
   @@map(name: "users")
+}
+
+model HeroStatisticsArchive {
+    id                      Int   @id @default(autoincrement())
+    userId                  Int   @map(name: "user_id")
+    heroId                  Int   @map(name: "hero_id")
+    gamesPlayed             Int   @map(name: "games_played")
+    ratingAverage           Float @map(name: "rating_avg")
+    ratingStandardDeviation Float @map(name: "rating_stdev")
+    placementAverage        Float @map(name: "placement_avg")
+    user                    User  @relation(fields: [userId], references: [id])
+    hero                    Hero  @relation(fields: [heroId], references: [id])
+
+    @@map(name: "hero_stat_archive")
 }

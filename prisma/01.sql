@@ -36,13 +36,6 @@ CREATE TABLE games
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
-CREATE OR REPLACE VIEW composition_statistics AS
-SELECT c.name, AVG(g.mmr) as score, COUNT(g.id) as games_played
-FROM games g
-         JOIN compositions c ON c.id = g.composition_id
-GROUP BY c.id
-ORDER BY score DESC;
-
 DELIMITER ;;;
 CREATE PROCEDURE update_mmr(IN userId INT, IN mmr INT)
 BEGIN

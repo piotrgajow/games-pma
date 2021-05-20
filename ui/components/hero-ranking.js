@@ -69,8 +69,8 @@ function filterText() {
 
 function heroColor(hero) {
     return {
-        green: hero.score > 0,
-        red: hero.score < 0,
+        green: hero.score > 55,
+        red: hero.score < 45,
         highlight: hero.found,
     };
 }

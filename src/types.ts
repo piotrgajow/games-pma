@@ -4,15 +4,17 @@ export interface HeroScore {
     id: number;
     name: string;
     score: number;
-    subScore: number;
 }
 
 export interface HeroStatistic {
     id: number;
     name: string;
-    mmr: number;
-    mmrStd: number;
     gamesPlayed: number;
+    avg: number;
+    stdev: number;
+    gamesPlayedOld: number;
+    avgOld: number;
+    stdevOld: number;
 }
 
 export interface HeroRanking {
@@ -22,7 +24,7 @@ export interface HeroRanking {
     score: number;
 }
 
-export type GameCreate = Omit<Game, "id" | "timestamp">
+export type GameCreate = Omit<Game, "id" | "timestamp" | "rating">
 
 export interface MmrStatus {
     currentMmr: number;
@@ -36,3 +38,5 @@ export interface User {
     login: string;
     passwordHash: string;
 }
+
+export type Placement = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;

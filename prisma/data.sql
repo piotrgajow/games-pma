@@ -110,6 +110,12 @@ INSERT INTO heroes (name)
 VALUES ("Overlord Saurfang");
 INSERT INTO heroes (name)
 VALUES ("Queen Wagtoggle");
+INSERT INTO heroes (name)
+VALUES ("Death Speaker Blackthorn");
+INSERT INTO heroes (name)
+VALUES ("Vol'jin");
+INSERT INTO heroes (name)
+VALUES ("Xyrella");
 
 INSERT INTO compositions (name)
 VALUES ("Nothing");
@@ -129,3 +135,5 @@ INSERT INTO compositions (name)
 VALUES ("Mechs");
 INSERT INTO compositions (name)
 VALUES ("Pirates");
+INSERT INTO compositions (name)
+VALUES ("Quilboars");

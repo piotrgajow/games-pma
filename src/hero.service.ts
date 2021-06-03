@@ -49,28 +49,34 @@ FROM
 }
 
 function scoreHero(heroStatistic: HeroStatistic): HeroScore {
-    const probability = getPositiveScoreProbability(heroStatistic);
+    const score = calculateHeroScore(heroStatistic);
 
     return {
         id: heroStatistic.id,
         name: heroStatistic.name,
-        score: Math.round(1000 * probability) / 10,
+        score,
     };
 }
 
-function getPositiveScoreProbability(heroStatistic: HeroStatistic): number {
+function calculateHeroScore(heroStatistic: HeroStatistic): number {
     const hasSmallSampleSize = heroStatistic.gamesPlayed < SMALL_SAMPLE_SIZE;
     if (hasSmallSampleSize && heroStatistic.gamesPlayedOld < SMALL_SAMPLE_SIZE) {
-        return 0.5;
+        return 50.0;
     }
 
     const avg = hasSmallSampleSize ? heroStatistic.avgOld : heroStatistic.avg;
     const stdev = hasSmallSampleSize ? heroStatistic.stdevOld : heroStatistic.stdev;
     if (stdev === 0) {
-        return avg > 0 ? 1 : 0;
+        return avg > 0 ? 100.0 : 0.0;
     } else {
         const zScore = Math.round(100 * avg / stdev) / 100;
-        return Z_TABLE[zScore]
+        if (zScore <= -4) {
+            return 0.0;
+        }
+        if (zScore >= 4) {
+            return 100 + Math.round(10 * avg) / 10;
+        }
+        return Math.round(1000 * Z_TABLE[zScore]) / 10;
     }
 }
 

@@ -116,6 +116,10 @@ INSERT INTO heroes (name)
 VALUES ("Vol'jin");
 INSERT INTO heroes (name)
 VALUES ("Xyrella");
+INSERT INTO heroes (name)
+VALUES ("Mutanus the Devourer");
+INSERT INTO heroes (name)
+VALUES ("Guff Runetotem");
 
 INSERT INTO compositions (name)
 VALUES ("Nothing");

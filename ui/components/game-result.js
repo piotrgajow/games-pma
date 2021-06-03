@@ -7,14 +7,14 @@ const template = `
 <div>
     <pma-select data-id="hero-choice" label="Hero" :options="heroes" v-model="heroId"></pma-select>
     <pma-select data-id="composition-choice" label="Composition" :options="compositions" v-model="compositionId"></pma-select>
-    <label for="mmr-change">MMR change:</label>
-    <input id="mmr-change" name="mmr-change" v-model="mmr"/>
-    <br/>
     <label for="placement">Placement:</label>
     <input id="placement" name="placement" v-model="placement"/>
     <br/>
     <input type="checkbox" id="ex-aequo" name="ex-aequo" v-model="isExAequo"/>
     <label for="ex-aequo">Ex aequo</label>
+    <br/>
+    <label for="mmr-change">MMR change:</label>
+    <input id="mmr-change" name="mmr-change" v-model="mmr"/>
     <br/>
     <button @click="onSave">Save</button>
 </div>

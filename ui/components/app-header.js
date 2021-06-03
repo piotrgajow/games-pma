@@ -46,7 +46,7 @@ function todayColor() {
 }
 
 function today() {
-    const sign = this.delta > 0 ? '+' : '-';
+    const sign = this.delta > 0 ? '+' : '';
     return `${sign}${this.delta} over ${this.played} games`;
 }
 

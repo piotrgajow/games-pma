@@ -120,6 +120,10 @@ INSERT INTO heroes (name)
 VALUES ("Mutanus the Devourer");
 INSERT INTO heroes (name)
 VALUES ("Guff Runetotem");
+INSERT INTO heroes (name)
+VALUES ("Kurtrus Ashfallen");
+INSERT INTO heroes (name)
+VALUES ("Trade Prince Gallywix");
 
 INSERT INTO compositions (name)
 VALUES ("Nothing");

@@ -124,6 +124,14 @@ INSERT INTO heroes (name)
 VALUES ("Kurtrus Ashfallen");
 INSERT INTO heroes (name)
 VALUES ("Trade Prince Gallywix");
+INSERT INTO heroes (name)
+VALUES ("Galakrond");
+INSERT INTO heroes (name)
+VALUES ("Galewing");
+INSERT INTO heroes (name)
+VALUES ("Master Nguyen");
+INSERT INTO heroes (name)
+VALUES ("Cariel Roame");
 
 INSERT INTO compositions (name)
 VALUES ("Nothing");
